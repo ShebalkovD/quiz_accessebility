@@ -1,0 +1,28 @@
+h1{
+    text-align: center;
+    font-size: 100px;
+}
+
+.container{
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn{
+    padding: 40px;
+    text-align: center;
+    margin: 10px;
+}
+
+.btn:hover{
+    cursor: pointer;
+}
+
+.correct{
+    background-color: green;
+}
+
+.incorrect{
+    background-color: red;
+}

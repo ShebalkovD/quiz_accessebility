@@ -23,10 +23,26 @@ class Question{
     }
 }
 
+// Получение случайного целого числа (max не включительно)
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
+// генерация случайных вопросов (quantity - колво)
+function randomQuestion(quantity){
+    let qst_list = []
+    for (let index = 0; index < quantity; index++) {
+        let x = getRandomInt(100)
+        let y = getRandomInt(100)
+        let correct = x + y
+        let qst = new Question(`${x}+${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+        qst_list.push(qst)
+    }
+    return qst_list
+}
+
 // список вопросов
-queston_list = [
-    new Question('5+5', 10, 5, 45, 6, 89)
-]
+queston_list = randomQuestion(5)
 
 // счетчик пройденных вопросов и вывод текущего
 let qst_counter = 0
@@ -49,5 +65,9 @@ btns.forEach(el => {
                 el.classList.remove('incorrect')
             }, 300)
         }
+        // Смена и вывод нового вопроса
+        qst_counter += 1
+        current_qst = queston_list[qst_counter]
+        current_qst.display()
     })
 })

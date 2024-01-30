@@ -1,6 +1,11 @@
-// получение заголовка и кнопок html
-let heading = document.querySelector('h1')
+// получение элементов html
+let heading = document.querySelector('.question')
 let btns = document.querySelectorAll('.btn')
+let main_screen = document.querySelector('.main_screen')
+let first_screen = document.querySelector('.first_screen')
+let input = document.querySelector('.quantity_input')
+let start_btn = document.querySelector('.start')
+
 
 // Получение случайного целого числа (max не включительно)
 function getRandomInt(max) {
@@ -55,7 +60,7 @@ function randomQuestion(quantity){
         let operator = operator_list[getRandomInt(4)]
 
         // два числа, ответ и вопрос
-        let x,y,correct, qst
+        let x, y, correct, qst
 
         // проверка оператора и генерация вопросов
         switch (operator){
@@ -85,7 +90,7 @@ function randomQuestion(quantity){
                 y = getRandomInt(10)
                 correct = x / y
                 // на ноль делить нельзя
-                while(x%y != 0){
+                while(x % y != 0){
                     x = getRandomInt(100)
                     y = getRandomInt(10) 
                     if(y == 0){
@@ -102,13 +107,12 @@ function randomQuestion(quantity){
 }
 
 // список вопросов
-queston_list = randomQuestion(5)
+let question_list = []
 
 // счетчик пройденных вопросов, верных ответов и вывод текущего
 let qst_counter = 0
 let correct_counter = 0
-let current_qst = queston_list[qst_counter]
-current_qst.display()
+let current_qst 
 
 // Нажатие на кнопки и проверка результата
 btns.forEach(el => {
@@ -131,10 +135,14 @@ btns.forEach(el => {
         
         // Смена и вывод нового вопроса
         qst_counter += 1
-        if (qst_counter == btns.length){
+        if (qst_counter == question_list.length){
             alert(`Вопросов пройдено: ${qst_counter};\nВерно: ${correct_counter};\nНеверно: ${qst_counter - correct_counter}`)
+            
+            main_screen.style.display = 'none'
+            first_screen.style.display = 'flex'
+            input.value = ''
         }else{
-            current_qst = queston_list[qst_counter]
+            current_qst = question_list[qst_counter]
             current_qst.display()
         }
         
@@ -142,3 +150,15 @@ btns.forEach(el => {
         
     })
 })
+
+start_btn.addEventListener('click', function(){
+    //генерация списка вопросов 
+    question_list = randomQuestion(+input.value)
+    current_qst = question_list[qst_counter]
+    current_qst.display()
+    first_screen.style.display = 'none'
+    main_screen.style.display = 'block'
+})
+
+
+

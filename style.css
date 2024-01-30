@@ -3,6 +3,10 @@ h1{
     font-size: 100px;
 }
 
+.main_screen{
+    display: none;
+}
+
 .container{
     margin-top: 40px;
     display: flex;
@@ -25,4 +29,31 @@ h1{
 
 .incorrect{
     background-color: red;
+}
+
+.first_screen{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.first_screen h2{
+    font-size: 50px;
+}
+
+.quantity_input{
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+    height: 80px;
+    font-size: 24px;
+}
+
+.start{
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+    height: 100px;
+    font-size: 45px;  
 }

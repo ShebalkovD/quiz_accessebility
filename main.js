@@ -45,19 +45,7 @@ class Question{
     }
 }
 
-// генерация случайных вопросов (quantity - колво)
-// function randomQuestion(quantity){
-//     let qst_list = []
-//     for (let index = 0; index < quantity; index++) {
-//         let x = getRandomInt(100)
-//         let y = getRandomInt(100)
-//         let correct = x + y
-//         let qst = new Question(`${x}+${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
-//         qst_list.push(qst)
-//     }
-//     return qst_list
-// }
-
+// Генерация случайных вопросов
 function randomQuestion(quantity){
     let qst_list = []
     let operator_list = ['+','-','*','/']
@@ -66,44 +54,47 @@ function randomQuestion(quantity){
         // получение оператора 
         let operator = operator_list[getRandomInt(4)]
 
-        // Проверка оператора и генерация соответсвующего вопроса
-        if (operator == '+'){
-            let x = getRandomInt(100)
-            let y = getRandomInt(100)
-            let correct = x + y
-            let qst = new Question(`${x}+${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
-            qst_list.push(qst)
-        }
-        if (operator == '-'){
-            let x = getRandomInt(100)
-            let y = getRandomInt(100)
-            let correct = x - y
-            let qst = new Question(`${x}-${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), -getRandomInt(100))
-            qst_list.push(qst)
-        }
-        if (operator == '*'){
-            let x = getRandomInt(10)
-            let y = getRandomInt(10)
-            let correct = x * y
-            let qst = new Question(`${x}*${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
-            qst_list.push(qst)
-        }
-        if (operator == '/'){
-            
-            let x = getRandomInt(100)
-            let y = getRandomInt(10)
-            let correct = x / y
-            // на ноль делить нельзя
-            while(x%y != 0){
+        // два числа, ответ и вопрос
+        let x,y,correct, qst
+
+        // проверка оператора и генерация вопросов
+        switch (operator){
+            case "+":
                 x = getRandomInt(100)
-                y = getRandomInt(10) 
-                if(y == 0){
-                    y += 1
-                } 
+                y = getRandomInt(100)
+                correct = x + y
+                qst = new Question(`${x}+${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+                qst_list.push(qst)
+                break
+            case "-":
+                x = getRandomInt(100)
+                y = getRandomInt(100)
+                correct = x - y
+                qst = new Question(`${x}-${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), -getRandomInt(100))
+                qst_list.push(qst)
+                break
+            case "*":
+                x = getRandomInt(10)
+                y = getRandomInt(10)
+                correct = x * y
+                qst = new Question(`${x}*${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+                qst_list.push(qst)
+                break
+            case "/":
+                x = getRandomInt(100)
+                y = getRandomInt(10)
                 correct = x / y
-            }
-            let qst = new Question(`${x}/${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
-            qst_list.push(qst)
+                // на ноль делить нельзя
+                while(x%y != 0){
+                    x = getRandomInt(100)
+                    y = getRandomInt(10) 
+                    if(y == 0){
+                        y += 1
+                    } 
+                    correct = x / y
+                }
+                qst = new Question(`${x}/${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+                qst_list.push(qst)   
         }
 
     }
@@ -113,16 +104,19 @@ function randomQuestion(quantity){
 // список вопросов
 queston_list = randomQuestion(5)
 
-// счетчик пройденных вопросов и вывод текущего
+// счетчик пройденных вопросов, верных ответов и вывод текущего
 let qst_counter = 0
+let correct_counter = 0
 let current_qst = queston_list[qst_counter]
 current_qst.display()
 
 // Нажатие на кнопки и проверка результата
 btns.forEach(el => {
     el.addEventListener('click', function(){
+        
         if (el.innerHTML == current_qst.correct){
             console.log('верно')
+            correct_counter += 1
             el.classList.add('correct')
             setTimeout(function(){
                 el.classList.remove('correct')
@@ -134,9 +128,17 @@ btns.forEach(el => {
                 el.classList.remove('incorrect')
             }, 300)
         }
+        
         // Смена и вывод нового вопроса
         qst_counter += 1
-        current_qst = queston_list[qst_counter]
-        current_qst.display()
+        if (qst_counter == btns.length){
+            alert(`Вопросов пройдено: ${qst_counter};\nВерно: ${correct_counter};\nНеверно: ${qst_counter - correct_counter}`)
+        }else{
+            current_qst = queston_list[qst_counter]
+            current_qst.display()
+        }
+        
+
+        
     })
 })

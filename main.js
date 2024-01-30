@@ -19,7 +19,7 @@ class Question{
             wrong4
         ]
     }
-    
+
     // метод возвращает массив ответов в случайном порядке
     mixAnswers(){
         let arr = []
@@ -46,14 +46,66 @@ class Question{
 }
 
 // генерация случайных вопросов (quantity - колво)
+// function randomQuestion(quantity){
+//     let qst_list = []
+//     for (let index = 0; index < quantity; index++) {
+//         let x = getRandomInt(100)
+//         let y = getRandomInt(100)
+//         let correct = x + y
+//         let qst = new Question(`${x}+${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+//         qst_list.push(qst)
+//     }
+//     return qst_list
+// }
+
 function randomQuestion(quantity){
     let qst_list = []
+    let operator_list = ['+','-','*','/']
     for (let index = 0; index < quantity; index++) {
-        let x = getRandomInt(100)
-        let y = getRandomInt(100)
-        let correct = x + y
-        let qst = new Question(`${x}+${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
-        qst_list.push(qst)
+
+        // получение оператора 
+        let operator = operator_list[getRandomInt(4)]
+
+        // Проверка оператора и генерация соответсвующего вопроса
+        if (operator == '+'){
+            let x = getRandomInt(100)
+            let y = getRandomInt(100)
+            let correct = x + y
+            let qst = new Question(`${x}+${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+            qst_list.push(qst)
+        }
+        if (operator == '-'){
+            let x = getRandomInt(100)
+            let y = getRandomInt(100)
+            let correct = x - y
+            let qst = new Question(`${x}-${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), -getRandomInt(100))
+            qst_list.push(qst)
+        }
+        if (operator == '*'){
+            let x = getRandomInt(10)
+            let y = getRandomInt(10)
+            let correct = x * y
+            let qst = new Question(`${x}*${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+            qst_list.push(qst)
+        }
+        if (operator == '/'){
+            
+            let x = getRandomInt(100)
+            let y = getRandomInt(10)
+            let correct = x / y
+            // на ноль делить нельзя
+            while(x%y != 0){
+                x = getRandomInt(100)
+                y = getRandomInt(10) 
+                if(y == 0){
+                    y += 1
+                } 
+                correct = x / y
+            }
+            let qst = new Question(`${x}/${y}`, correct, getRandomInt(100), getRandomInt(100), getRandomInt(100), getRandomInt(100))
+            qst_list.push(qst)
+        }
+
     }
     return qst_list
 }

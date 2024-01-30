@@ -2,11 +2,16 @@
 let heading = document.querySelector('h1')
 let btns = document.querySelectorAll('.btn')
 
+// Получение случайного целого числа (max не включительно)
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
 class Question{
     constructor(qst, correct, wrong1, wrong2, wrong3, wrong4){
         this.qst = qst,
         this.correct = correct,
-        this.qst_list = [
+        this.answers = [
             correct,
             wrong1,
             wrong2,
@@ -14,18 +19,30 @@ class Question{
             wrong4
         ]
     }
+    
+    // метод возвращает массив ответов в случайном порядке
+    mixAnswers(){
+        let arr = []
+        let counter = 0
+        let randNum = 0
+        while (this.answers.length > 0) {
+            counter = this.answers.length
+            randNum = getRandomInt(counter)
+            arr.push(this.answers[randNum])
+            this.answers.splice(randNum, 1)
+        }
+        return arr
+    }
+
+    // вывод вопроса и ответов
     display(){
+        let mixedAnswers = this.mixAnswers()
         heading.innerHTML = this.qst
         for (let index = 0; index < btns.length; index++) {
-            btns[index].innerHTML = this.qst_list[index]
+            btns[index].innerHTML = mixedAnswers[index]
             
         }
     }
-}
-
-// Получение случайного целого числа (max не включительно)
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
 }
 
 // генерация случайных вопросов (quantity - колво)
